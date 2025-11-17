@@ -57,7 +57,7 @@ export default function FeaturedProjects() {
                 key={idx}
                 className="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
               >
-                <a href={project.url}>
+                <Link href={project.url} target="_blank">
                   <Image
                     className="rounded-t-lg"
                     width={2000}
@@ -65,7 +65,7 @@ export default function FeaturedProjects() {
                     src={project.imgSrc}
                     alt={project.title}
                   />
-                </a>
+                </Link>
                 <div className="p-5">
                   <Link href={project.url} target="_blank">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
