@@ -1,4 +1,4 @@
-import Sidebar from "@/components/Sidebar";
+import SidebarServer from "@/components/SidebarServer";
 
 export default function AdminLayout({
   children,
@@ -7,7 +7,7 @@ export default function AdminLayout({
 }) {
   return (
     <>
-      <Sidebar />
+      <SidebarServer />
       {children}
     </>
   );

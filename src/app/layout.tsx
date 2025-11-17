@@ -21,8 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} antialiased  dark:bg-black`}>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body
+        className={`${inter.variable} antialiased  dark:bg-black relative`}
+        suppressHydrationWarning={true}
+      >
         <div className="absolute width-full h-screen inset-0 top-0 z-[-1] opacity-16 dark:opacity-50">
           <PixelBlast
             variant="circle"

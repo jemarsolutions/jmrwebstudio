@@ -18,26 +18,31 @@ This application serves two primary functions:
 ## 🛠️ Technology Stack
 
 ### **Frontend Framework**
+
 - **Next.js 16.0.1** (App Router) - Latest React framework with server-side rendering
 - **React 19.2.0** - UI library with React Server Components
 - **TypeScript 5** - Type-safe development
 
 ### **Styling & UI**
+
 - **Tailwind CSS 4** - Utility-first CSS framework
 - **Shadcn UI** - High-quality UI components built on Radix UI
 - **Lucide React** - Modern icon library
 - **next-themes** - Dark/light mode theming support
 
 ### **Database & ORM**
+
 - **Neon Database** (Serverless PostgreSQL) - Cloud-native database
 - **Drizzle ORM 0.44.7** - TypeScript ORM for database operations
 - **Drizzle Kit 0.31.6** - Database migration toolkit
 
 ### **Authentication**
+
 - **Better Auth 1.3.34** - Modern authentication library
 - Email & Password authentication with session management
 
 ### **Development Tools**
+
 - **ESLint 9** - Code linting
 - **tsx** - TypeScript execution for migrations
 - **PostCSS** - CSS processing
@@ -110,7 +115,9 @@ jmrwebstudio/
 ### **Tables**
 
 #### 1. **customers** (Potential Leads)
+
 Stores inquiries from the contact form:
+
 - `id` (UUID, Primary Key)
 - `firstName`, `lastName` (Text)
 - `city`, `country` (Text)
@@ -123,7 +130,9 @@ Stores inquiries from the contact form:
 - `createdAt` (Timestamp)
 
 #### 2. **clients** (Active Clients)
+
 Manages clients through project phases:
+
 - `id` (UUID, Primary Key)
 - `firstName`, `lastName` (Text)
 - `city`, `country` (Text)
@@ -134,7 +143,9 @@ Manages clients through project phases:
 - `createdAt` (Timestamp)
 
 #### 3. **user** (Admin Users)
+
 Authentication user accounts:
+
 - `id` (Text, Primary Key)
 - `name` (Text)
 - `email` (Text, Unique)
@@ -143,21 +154,27 @@ Authentication user accounts:
 - `createdAt`, `updatedAt` (Timestamps)
 
 #### 4. **session** (User Sessions)
+
 Tracks active user sessions:
+
 - `id`, `token` (Text, Unique)
 - `expiresAt` (Timestamp)
 - `ipAddress`, `userAgent` (Text, nullable)
 - `userId` (Foreign Key to user)
 
 #### 5. **account** (OAuth Accounts)
+
 Stores OAuth provider information:
+
 - `id` (Text, Primary Key)
 - `accountId`, `providerId` (Text)
 - `userId` (Foreign Key)
 - Access tokens, refresh tokens, etc.
 
 #### 6. **verification** (Email Verification)
+
 Handles email verification tokens:
+
 - `id`, `identifier`, `value` (Text)
 - `expiresAt` (Timestamp)
 
@@ -168,16 +185,19 @@ Handles email verification tokens:
 ### **Public Website Features**
 
 1. **Responsive Hero Section**
+
    - Eye-catching headline and CTA
    - Gradient background effects
    - Direct links to portfolio and contact form
 
 2. **About Section**
+
    - Company overview
    - Key differentiators (Philippines-based, WordPress expert, etc.)
    - Visual icons for each value proposition
 
 3. **Services Showcase**
+
    - 6 core services:
      - Website Design & Development
      - E-commerce Setup (WooCommerce)
@@ -188,18 +208,21 @@ Handles email verification tokens:
    - Card-based layout with icons
 
 4. **Why Choose Us**
+
    - Modern Minimal Design
    - Tailored Solutions
    - Growth Optimization
    - Personal Approach
 
 5. **Featured Projects Portfolio**
+
    - Luna Café (Coffee shop website)
    - PureGlow Skincare (E-commerce)
    - Flow Marketing Agency (One-page site)
    - Image showcases with descriptions
 
 6. **Contact Form**
+
    - Full lead capture form with validation
    - Fields: Name, City, Country, Company, Email, Phone, Message
    - Privacy policy agreement checkbox
@@ -208,6 +231,7 @@ Handles email verification tokens:
    - Automatic lead creation in database
 
 7. **Dark/Light Mode**
+
    - System preference detection
    - Manual theme toggle
    - Persistent theme selection
@@ -219,12 +243,14 @@ Handles email verification tokens:
 ### **Admin Dashboard Features**
 
 1. **Authentication System**
+
    - Secure email/password login
    - Session management with Better Auth
    - Protected routes (redirect if not authenticated)
    - Sign in and sign up pages
 
 2. **Dashboard Overview**
+
    - Quick access cards to all sections
    - Welcomes admin by name
    - Navigation to:
@@ -236,6 +262,7 @@ Handles email verification tokens:
      - Completed Projects
 
 3. **Potential Leads Management**
+
    - View all incoming inquiries from contact form
    - Real-time updates when new leads arrive
    - Table view with sorting by creation date
@@ -244,6 +271,7 @@ Handles email verification tokens:
    - Convert leads to clients
 
 4. **Client Project Tracking**
+
    - **Pending**: Newly converted clients waiting to start
    - **Design**: Clients in design phase
    - **Development**: Active development projects
@@ -251,6 +279,7 @@ Handles email verification tokens:
    - **Done**: Completed and delivered projects
 
 5. **Status Workflow**
+
    - Move clients between phases
    - Automatic redirection to appropriate view
    - Chronological sorting (newest first)
@@ -265,6 +294,7 @@ Handles email verification tokens:
 ## 🔄 Data Flow
 
 ### **Lead Acquisition Flow**
+
 1. Visitor fills out contact form on public website
 2. Client-side validation and submission
 3. Server action `addCustomer()` creates record in `customers` table
@@ -273,6 +303,7 @@ Handles email verification tokens:
 6. Lead appears in admin "Potential Leads" section
 
 ### **Lead to Client Conversion Flow**
+
 1. Admin reviews lead in potential leads section
 2. Admin adds discovery notes if needed
 3. Admin converts lead to client using `addClient()` action
@@ -281,6 +312,7 @@ Handles email verification tokens:
 6. Admin redirected to client management view
 
 ### **Client Status Management Flow**
+
 1. Admin views clients by status in respective sections
 2. Admin updates status using `updateClientStatus()` action
 3. Client record updated in database
@@ -348,6 +380,7 @@ npm run migrate
 ### **Database Migrations**
 
 Migrations are managed with Drizzle Kit:
+
 ```bash
 # Generate migration
 npx drizzle-kit generate
@@ -363,6 +396,7 @@ npm run migrate
 ### **Current Issues (Found in Analysis)**
 
 1. **TypeScript Error**:
+
    - `.next/types/validator.ts` looking for non-existent `page.js`
    - Likely a build cache issue - can be resolved by deleting `.next` folder
 
@@ -377,16 +411,19 @@ npm run migrate
 ### **Recommendations**
 
 1. **Fix TypeScript Issues**:
+
    ```bash
    Remove-Item -Recurse -Force .next
    npm run build
    ```
 
 2. **Type Safety Improvements**:
+
    - Define proper types for client/customer data
    - Replace `any` with specific interfaces
 
 3. **Code Quality**:
+
    - Fix apostrophe escaping in JSX
    - Replace `<img>` with `<Image>` for optimization
    - Replace `<a>` with `<Link>` for internal navigation
@@ -409,15 +446,19 @@ npm run migrate
 ### **Technical Decisions**
 
 **Q: Why Next.js 16?**
+
 > We chose Next.js 16 for its cutting-edge App Router with React Server Components, enabling us to build a hybrid application with both static marketing pages and dynamic admin dashboard. The server actions eliminate the need for separate API routes, simplifying our architecture.
 
 **Q: Why Drizzle ORM?**
+
 > Drizzle provides type-safe database operations with excellent TypeScript integration, automatic migrations, and better performance compared to heavier ORMs. It's lightweight but powerful enough for our needs.
 
 **Q: Why Better Auth over NextAuth?**
+
 > Better Auth is more modern and flexible, with better TypeScript support and cleaner API design. It's specifically built for modern Next.js applications with app router support out of the box.
 
 **Q: Database choice?**
+
 > Neon serverless PostgreSQL gives us the reliability of PostgreSQL with automatic scaling, branching for development, and excellent cold-start performance, perfect for a growing application.
 
 ### **Architecture Highlights**
@@ -451,6 +492,7 @@ npm run migrate
 ## 🎓 Technical Skills Demonstrated
 
 ### **Frontend**
+
 ✅ Next.js 16 App Router  
 ✅ React 19 Server Components  
 ✅ TypeScript advanced patterns  
@@ -459,9 +501,10 @@ npm run migrate
 ✅ Form handling and validation  
 ✅ Modal management  
 ✅ Theme implementation  
-✅ Client/Server boundary management  
+✅ Client/Server boundary management
 
 ### **Backend**
+
 ✅ Server actions  
 ✅ Database design (normalization, relationships)  
 ✅ ORM usage (Drizzle)  
@@ -469,24 +512,26 @@ npm run migrate
 ✅ Session management  
 ✅ Data validation  
 ✅ CRUD operations  
-✅ Server-side rendering  
+✅ Server-side rendering
 
 ### **Database**
+
 ✅ PostgreSQL  
 ✅ Schema design  
 ✅ Migrations  
 ✅ Relationships (foreign keys)  
 ✅ Indexing considerations  
-✅ Data modeling  
+✅ Data modeling
 
 ### **Best Practices**
+
 ✅ Type safety  
 ✅ Code organization  
 ✅ Reusable components  
 ✅ Security considerations  
 ✅ Performance optimization  
 ✅ Error handling  
-✅ User experience (loading states, feedback)  
+✅ User experience (loading states, feedback)
 
 ---
 
@@ -508,6 +553,7 @@ npm run migrate
 ## 📞 Support & Maintenance
 
 ### **Regular Tasks**
+
 - Monitor error logs
 - Review and respond to leads
 - Update client statuses
@@ -516,7 +562,9 @@ npm run migrate
 - Review and fix ESLint warnings
 
 ### **Deployment**
+
 The application can be deployed to:
+
 - **Vercel** (recommended for Next.js)
 - **Netlify**
 - **Railway**
@@ -530,6 +578,7 @@ The application can be deployed to:
 JMR Web Studio is a production-ready, full-stack application that effectively combines a marketing website with a client management system. It demonstrates modern web development practices, clean architecture, and practical business solutions. The codebase is maintainable, scalable, and showcases proficiency in the latest web technologies.
 
 **Key Strengths**:
+
 - Modern tech stack (Next.js 16, React 19, TypeScript)
 - Clean, minimal UI design
 - Complete authentication system
@@ -539,6 +588,7 @@ JMR Web Studio is a production-ready, full-stack application that effectively co
 - Deployment-ready
 
 **Areas for Improvement**:
+
 - Fix existing ESLint errors
 - Add comprehensive testing
 - Implement more robust error handling

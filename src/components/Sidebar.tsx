@@ -1,11 +1,8 @@
-import {
-  getAllClients,
-  getAllClientsOnDesign,
-  getAllClientsOnDevelopment,
-  getAllClientsOnDone,
-  getAllClientsOnRevisions,
-  getAllCustomers,
-} from "@/server/actions";
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { ModeToggle } from "./ModeToggle";
 import {
   Brush,
   CheckCircle,
@@ -15,34 +12,92 @@ import {
   User2Icon,
   UserSearch,
 } from "lucide-react";
-import { ModeToggle } from "./ModeToggle";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import { signOutAction } from "@/server/auth";
-import Link from "next/link";
 
-export default async function Sidebar() {
-  const customers = await getAllCustomers();
-  const clients = await getAllClients();
-  const designClients = await getAllClientsOnDesign();
-  const developmentClients = await getAllClientsOnDevelopment();
-  const revisionsClients = await getAllClientsOnRevisions();
-  const doneClients = await getAllClientsOnDone();
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  if (!session) return null;
+interface SidebarProps {
+  customers: any[];
+  clients: any[];
+  designClients: any[];
+  developmentClients: any[];
+  revisionsClients: any[];
+  doneClients: any[];
+}
+
+export default function Sidebar({
+  customers = [],
+  clients = [],
+  designClients = [],
+  developmentClients = [],
+  revisionsClients = [],
+  doneClients = [],
+}: SidebarProps) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const toggleSidebar = () => setMobileOpen(!mobileOpen);
+
   return (
-    <div>
-      <aside
-        id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
-        aria-label="Sidebar"
+    <>
+      {/* Mobile toggle button */}
+      <button
+        type="button"
+        onClick={toggleSidebar}
+        className={`fixed top-1 ${mobileOpen && "right-1"} ${
+          !mobileOpen && "left-1"
+        } z-50 p-2 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 lg:hidden`}
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        {mobileOpen ? (
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        ) : (
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        )}
+      </button>
+
+      {/* Backdrop */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          onClick={toggleSidebar}
+        ></div>
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform bg-gray-50 dark:bg-gray-800 overflow-y-auto
+          ${
+            mobileOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0`}
+      >
+        <div className="h-full px-3 py-4 relative">
+          {/* Mode toggle */}
           <div className="absolute bottom-3 right-3">
             <ModeToggle />
           </div>
+
+          {/* Logo */}
           <a href="/admin" className="flex items-center ps-2.5 mb-5">
             <p className="font-bold text-xl">
               JMR{" "}
@@ -51,119 +106,119 @@ export default async function Sidebar() {
               </span>
             </p>
           </a>
+
           <ul className="space-y-2 font-medium">
+            {/* Potential Lead */}
             <li>
               <Link
                 href="/admin/potential-lead"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group relative"
               >
-                <UserSearch
-                  fill="currentColor"
-                  className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                />
+                <UserSearch className="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                 <span className="ms-3">Potential Lead</span>
                 {customers.length > 0 && (
-                  <span className="ms-3 font-bold text-xs absolute right-1 top-1/2 -translate-y-1/2 rounded-4xl bg-indigo-400 text-indigo-100 dark:bg-indigo-900 dark:text-indigo-200 w-7 h-7 flex items-center justify-center">
+                  <span className="ms-3 font-bold text-xs absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-indigo-400 text-indigo-100 dark:bg-indigo-900 dark:text-indigo-200 w-7 h-7 flex items-center justify-center">
                     {customers.length}
                   </span>
                 )}
               </Link>
             </li>
+
+            {/* Clients + Submenus */}
             <li>
-              <a
+              <Link
                 href="/admin/client"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group relative"
               >
-                <User2Icon className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-
+                <User2Icon className="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                 <span className="flex-1 ms-3 whitespace-nowrap">Clients</span>
                 {clients.length > 0 && (
-                  <span className="ms-3 font-bold text-xs absolute right-1 top-1/2 -translate-y-1/2 rounded-4xl bg-indigo-400 text-indigo-100 dark:bg-indigo-900 dark:text-indigo-200 w-7 h-7 flex items-center justify-center">
+                  <span className="ms-3 font-bold text-xs absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-indigo-400 text-indigo-100 dark:bg-indigo-900 dark:text-indigo-200 w-7 h-7 flex items-center justify-center">
                     {clients.length}
                   </span>
                 )}
-              </a>
+              </Link>
+
               <ul className="space-y-2 font-medium mt-2">
+                {/** Design */}
                 <li>
-                  <a
+                  <Link
                     href="/admin/client/design"
                     className="flex items-center pl-5 text-gray-900 rounded-lg dark:text-white hover:text-indigo-500 dark:hover:text-indigo-200 group relative"
                   >
-                    <Brush className="w-4 h-4 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-200" />
-
+                    <Brush className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-200" />
                     <span className="flex-1 ms-3 whitespace-nowrap text-sm font-extralight">
                       Design
                     </span>
                     {designClients.length > 0 && (
-                      <span className="ms-3 font-bold text-[10px] absolute right-0 top-0 rounded-4xl bg-pink-300 text-white dark:bg-pink-900 dark:text-indigo-200 w-5 h-5 flex items-center justify-center">
+                      <span className="ms-3 font-bold text-[10px] absolute right-0 top-0 rounded-full bg-pink-300 text-white dark:bg-pink-900 dark:text-indigo-200 w-5 h-5 flex items-center justify-center">
                         {designClients.length}
                       </span>
                     )}
-                  </a>
+                  </Link>
                 </li>
+
+                {/** Development */}
                 <li>
-                  <a
+                  <Link
                     href="/admin/client/development"
                     className="flex items-center pl-5 text-gray-900 rounded-lg dark:text-white hover:text-indigo-500 dark:hover:text-indigo-200 group relative"
                   >
-                    <Code className="w-4 h-4 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-200" />
-
+                    <Code className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-200" />
                     <span className="flex-1 ms-3 whitespace-nowrap text-sm font-extralight">
                       Development
                     </span>
                     {developmentClients.length > 0 && (
-                      <span className="ms-3 font-bold text-[10px] absolute right-0 top-0 rounded-4xl bg-blue-300 text-white dark:bg-blue-900 dark:text-indigo-200 w-5 h-5 flex items-center justify-center">
+                      <span className="ms-3 font-bold text-[10px] absolute right-0 top-0 rounded-full bg-blue-300 text-white dark:bg-blue-900 dark:text-indigo-200 w-5 h-5 flex items-center justify-center">
                         {developmentClients.length}
                       </span>
                     )}
-                  </a>
+                  </Link>
                 </li>
+
+                {/** Revisions */}
                 <li>
-                  <a
+                  <Link
                     href="/admin/client/revisions"
                     className="flex items-center pl-5 text-gray-900 rounded-lg dark:text-white hover:text-indigo-500 dark:hover:text-indigo-200 group relative"
                   >
-                    <History className="w-4 h-4 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-200" />
-
+                    <History className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-200" />
                     <span className="flex-1 ms-3 whitespace-nowrap text-sm font-extralight">
                       Revisions
                     </span>
                     {revisionsClients.length > 0 && (
-                      <span className="ms-3 font-bold text-[10px] absolute right-0 top-0 rounded-4xl bg-yellow-300 text-black dark:bg-yellow-500 dark:text-black w-5 h-5 flex items-center justify-center">
+                      <span className="ms-3 font-bold text-[10px] absolute right-0 top-0 rounded-full bg-yellow-300 text-black dark:bg-yellow-500 dark:text-black w-5 h-5 flex items-center justify-center">
                         {revisionsClients.length}
                       </span>
                     )}
-                  </a>
+                  </Link>
                 </li>
+
+                {/** Done */}
                 <li>
-                  <a
+                  <Link
                     href="/admin/client/done"
                     className="flex items-center pl-5 text-gray-900 rounded-lg dark:text-white hover:text-indigo-500 dark:hover:text-indigo-200 group relative"
                   >
-                    <CheckCircle className="w-4 h-4 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-200" />
-
+                    <CheckCircle className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-200" />
                     <span className="flex-1 ms-3 whitespace-nowrap text-sm font-extralight">
                       Done
                     </span>
                     {doneClients.length > 0 && (
-                      <span className="ms-3 font-bold text-[10px] absolute right-0 top-0 rounded-4xl bg-green-300 text-black dark:bg-green-900 dark:text-indigo-200 w-5 h-5 flex items-center justify-center">
+                      <span className="ms-3 font-bold text-[10px] absolute right-0 top-0 rounded-full bg-green-300 text-black dark:bg-green-900 dark:text-indigo-200 w-5 h-5 flex items-center justify-center">
                         {doneClients.length}
                       </span>
                     )}
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
+
+            {/* Logout */}
             <li>
               <form action={signOutAction}>
-                <button
-                  type="submit"
-                  className="flex w-full items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group relative cursor-pointer"
-                >
-                  <LogOut
-                    fill="currentColor"
-                    className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  />
+                <button className="flex w-full items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group relative cursor-pointer">
+                  <LogOut className="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                   <span className="ms-3">Logout</span>
                 </button>
               </form>
@@ -171,6 +226,6 @@ export default async function Sidebar() {
           </ul>
         </div>
       </aside>
-    </div>
+    </>
   );
 }

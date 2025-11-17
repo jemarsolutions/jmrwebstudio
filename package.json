@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "migrate": "tsx src/db/migrate.ts"
+    "migrate": "tsx drizzle-kit generate"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
@@ -36,7 +36,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.181.0",
-    "drizzle-kit": "^0.31.6",
+    "drizzle-kit": "^0.18.1",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
     "tailwindcss": "^4",
