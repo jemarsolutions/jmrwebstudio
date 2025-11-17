@@ -1,27 +1,14 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function FeaturedProjects() {
   const projects = [
     {
-      title: "Luna Café",
+      title: "Grocery Trackr",
       description:
-        "A warm and inviting website for a local coffee shop. We focused on storytelling, modern layout, and a simple menu section that enhances customer engagement.",
-      imgSrc: "/featured_projects/the_cafe.jpg",
-      url: "#",
-    },
-    {
-      title: "PureGlow Skincare",
-      description:
-        "An elegant online store for a skincare brand. Minimalist design and pastel tones reflect purity and trust while ensuring an easy shopping experience.",
-      imgSrc: "/featured_projects/skincare.jpg",
-      url: "#",
-    },
-    {
-      title: "Flow Marketing Agency",
-      description:
-        "A bold one-page site for a creative marketing firm. Designed to convert visitors with clean typography, subtle animations, and effective CTAs.",
-      imgSrc: "/featured_projects/marketing.jpg",
-      url: "#",
+        "Grocery Trackr is a smart home inventory app that helps you and your family keep track of grocery items — what you have, what’s running low, and what you need to buy next. Easily manage quantities, brands, and prices, so grocery shopping becomes organized, efficient, and stress-free.",
+      imgSrc: "/featured_projects/grocery-trackr.png",
+      url: "https://grocery-trackr.vercel.app/",
     },
   ];
 
@@ -63,9 +50,7 @@ export default function FeaturedProjects() {
             </p>
           </div>
 
-          <p className="mt-30 italic text-red-300">Projects coming soon...</p>
-
-          {/* Projects Grid
+          {/* Projects Grid */}
           <div className="mt-16 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((project, idx) => (
               <div
@@ -82,24 +67,25 @@ export default function FeaturedProjects() {
                   />
                 </a>
                 <div className="p-5">
-                  <a href={project.url}>
+                  <Link href={project.url} target="_blank">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                       {project.title}
                     </h5>
-                  </a>
-                  <p className="mb-3 text-gray-700 dark:text-gray-400">
+                  </Link>
+                  <p className="mb-5 text-gray-700 dark:text-gray-400">
                     {project.description}
                   </p>
-                  <a
+                  <Link
+                    target="_blank"
                     href={project.url}
                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     Visit Site
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
