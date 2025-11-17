@@ -17,8 +17,8 @@ const createTouchTexture = () => {
   texture.minFilter = THREE.LinearFilter;
   texture.magFilter = THREE.LinearFilter;
   texture.generateMipmaps = false;
-  const trail: THREE.Sprite[] = [];
-  let last: any[];
+  const trail: any = [];
+  let last: any;
   const maxAge = 64;
   let radius = 0.1 * size;
   const speed = 1 / maxAge;
@@ -123,7 +123,7 @@ const createLiquidEffect = (texture: any, opts: any) => {
   });
 };
 
-const SHAPE_MAP = {
+const SHAPE_MAP: any = {
   square: 0,
   circle: 1,
   triangle: 2,
@@ -325,10 +325,10 @@ const PixelBlast = ({
   const visibilityRef = useRef({ visible: true });
   const speedRef = useRef(speed);
 
-  const threeRef = useRef(null);
+  const threeRef: any = useRef(null);
   const prevConfigRef = useRef(null);
   useEffect(() => {
-    const container = containerRef.current;
+    const container: any = containerRef.current;
     if (!container) return;
     speedRef.current = speed;
     const needsReinitKeys = ["antialias", "liquid", "noiseAmount"];
