@@ -29,7 +29,7 @@ export default function RootLayout({
         <div className="absolute width-full h-screen inset-0 top-0 z-[-1] opacity-16 dark:opacity-50">
           <PixelBlast
             className=""
-            style=""
+            style={{ marginRight: "em" }}
             variant="circle"
             pixelSize={6}
             color="#6E00B3"

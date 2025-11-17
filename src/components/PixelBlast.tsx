@@ -17,8 +17,8 @@ const createTouchTexture = () => {
   texture.minFilter = THREE.LinearFilter;
   texture.magFilter = THREE.LinearFilter;
   texture.generateMipmaps = false;
-  const trail = [];
-  let last = null;
+  const trail: THREE.Sprite[] = [];
+  let last: any[];
   const maxAge = 64;
   let radius = 0.1 * size;
   const speed = 1 / maxAge;
@@ -26,11 +26,11 @@ const createTouchTexture = () => {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   };
-  const drawPoint = (p) => {
+  const drawPoint = (p: any) => {
     const pos = { x: p.x * size, y: (1 - p.y) * size };
     let intensity = 1;
-    const easeOutSine = (t) => Math.sin((t * Math.PI) / 2);
-    const easeOutQuad = (t) => -t * (t - 2);
+    const easeOutSine = (t: any) => Math.sin((t * Math.PI) / 2);
+    const easeOutQuad = (t: any) => -t * (t - 2);
     if (p.age < maxAge * 0.3) intensity = easeOutSine(p.age / (maxAge * 0.3));
     else
       intensity = easeOutQuad(1 - (p.age - maxAge * 0.3) / (maxAge * 0.7)) || 0;
@@ -48,7 +48,7 @@ const createTouchTexture = () => {
     ctx.arc(pos.x - offset, pos.y - offset, radius, 0, Math.PI * 2);
     ctx.fill();
   };
-  const addTouch = (norm) => {
+  const addTouch = (norm: any) => {
     let force = 0;
     let vx = 0;
     let vy = 0;
@@ -68,7 +68,7 @@ const createTouchTexture = () => {
   const update = () => {
     clear();
     for (let i = trail.length - 1; i >= 0; i--) {
-      const point = trail[i];
+      const point: any = trail[i];
       const f = point.force * speed * (1 - point.age / maxAge);
       point.x += point.vx * f;
       point.y += point.vy * f;
@@ -93,7 +93,7 @@ const createTouchTexture = () => {
   };
 };
 
-const createLiquidEffect = (texture, opts) => {
+const createLiquidEffect = (texture: any, opts: any) => {
   const fragment = `
     uniform sampler2D uTexture;
     uniform float uStrength;
@@ -301,8 +301,8 @@ const PixelBlast = ({
   variant = "square",
   pixelSize = 3,
   color = "#B19EEF",
-  className,
-  style,
+  className = "",
+  style = {},
   antialias = true,
   patternScale = 2,
   patternDensity = 1,
@@ -332,7 +332,7 @@ const PixelBlast = ({
     if (!container) return;
     speedRef.current = speed;
     const needsReinitKeys = ["antialias", "liquid", "noiseAmount"];
-    const cfg = { antialias, liquid, noiseAmount };
+    const cfg: any = { antialias, liquid, noiseAmount };
     let mustReinit = false;
     if (!threeRef.current) mustReinit = true;
     else if (prevConfigRef.current) {
@@ -344,16 +344,13 @@ const PixelBlast = ({
     }
     if (mustReinit) {
       if (threeRef.current) {
-        const t = threeRef.current;
+        const t: any = threeRef.current;
         t.resizeObserver?.disconnect();
         cancelAnimationFrame(t.raf);
         t.quad?.geometry.dispose();
         t.material.dispose();
         t.composer?.dispose();
         t.renderer.dispose();
-        if (t.renderer.domElement.parentElement === container)
-          container.removeChild(t.renderer.domElement);
-        threeRef.current = null;
       }
       const canvas = document.createElement("canvas");
       const renderer = new THREE.WebGLRenderer({
@@ -432,9 +429,9 @@ const PixelBlast = ({
         return Math.random();
       };
       const timeOffset = randomFloat() * 1000;
-      let composer;
-      let touch;
-      let liquidEffect;
+      let composer: any;
+      let touch: any;
+      let liquidEffect: any;
       if (liquid) {
         touch = createTouchTexture();
         touch.radiusScale = liquidRadius;
@@ -467,12 +464,12 @@ const PixelBlast = ({
         const noisePass = new EffectPass(camera, noiseEffect);
         noisePass.renderToScreen = true;
         if (composer && composer.passes.length > 0)
-          composer.passes.forEach((p) => (p.renderToScreen = false));
+          composer.passes.forEach((p: any) => (p.renderToScreen = false));
         composer.addPass(noisePass);
       }
       if (composer)
         composer.setSize(renderer.domElement.width, renderer.domElement.height);
-      const mapToPixels = (e) => {
+      const mapToPixels = (e: any) => {
         const rect = renderer.domElement.getBoundingClientRect();
         const scaleX = renderer.domElement.width / rect.width;
         const scaleY = renderer.domElement.height / rect.height;
@@ -485,14 +482,14 @@ const PixelBlast = ({
           h: renderer.domElement.height,
         };
       };
-      const onPointerDown = (e) => {
+      const onPointerDown = (e: any) => {
         const { fx, fy } = mapToPixels(e);
         const ix = threeRef.current?.clickIx ?? 0;
         uniforms.uClickPos.value[ix].set(fx, fy);
         uniforms.uClickTimes.value[ix] = uniforms.uTime.value;
         if (threeRef.current) threeRef.current.clickIx = (ix + 1) % MAX_CLICKS;
       };
-      const onPointerMove = (e) => {
+      const onPointerMove = (e: any) => {
         if (!touch) return;
         const { fx, fy, w, h } = mapToPixels(e);
         touch.addTouch({ x: fx / w, y: fy / h });
@@ -515,10 +512,10 @@ const PixelBlast = ({
           liquidEffect.uniforms.get("uTime").value = uniforms.uTime.value;
         if (composer) {
           if (touch) touch.update();
-          composer.passes.forEach((p) => {
+          composer.passes.forEach((p: any) => {
             const effs = p.effects;
             if (effs)
-              effs.forEach((eff) => {
+              effs.forEach((eff: any) => {
                 const u = eff.uniforms?.get("uTime");
                 if (u) u.value = uniforms.uTime.value;
               });
@@ -545,7 +542,7 @@ const PixelBlast = ({
         liquidEffect,
       };
     } else {
-      const t = threeRef.current;
+      const t: any = threeRef.current;
       t.uniforms.uShapeType.value = SHAPE_MAP[variant] ?? 0;
       t.uniforms.uPixelSize.value = pixelSize * t.renderer.getPixelRatio();
       t.uniforms.uColor.value.set(color);
@@ -571,7 +568,7 @@ const PixelBlast = ({
     return () => {
       if (threeRef.current && mustReinit) return;
       if (!threeRef.current) return;
-      const t = threeRef.current;
+      const t: any = threeRef.current;
       t.resizeObserver?.disconnect();
       cancelAnimationFrame(t.raf);
       t.quad?.geometry.dispose();
