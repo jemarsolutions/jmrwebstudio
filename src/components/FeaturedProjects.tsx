@@ -10,6 +10,13 @@ export default function FeaturedProjects() {
       imgSrc: "/featured_projects/grocery-trackr.png",
       url: "https://grocery-trackr.vercel.app/",
     },
+    {
+      title: "Task Ni Macky",
+      description:
+        "Task Ni Macky is my personal task management app designed to help me stay organized, focused, and productive. It’s where I list all my projects, daily tasks, deadlines, and anything important I need to remember. Everything is arranged in a simple and clear way so I can easily track what I need to do and what I’ve already finished. This app is built to help me manage my time better and stay consistent with my goals.",
+      imgSrc: "/featured_projects/tasknimacky.png",
+      url: "https://tasknimacky.vercel.app/",
+    },
   ];
 
   return (
@@ -59,7 +66,7 @@ export default function FeaturedProjects() {
               >
                 <Link href={project.url} target="_blank">
                   <Image
-                    className="rounded-t-lg"
+                    className="rounded-t-lg h-[250px] object-cover"
                     width={2000}
                     height={2000}
                     src={project.imgSrc}
