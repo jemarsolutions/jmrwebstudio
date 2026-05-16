@@ -20,7 +20,11 @@
     "drizzle-orm": "^0.44.7",
     "gsap": "^3.13.0",
     "lucide-react": "^0.553.0",
+<<<<<<< HEAD
     "next": "^16.2.2",
+=======
+    "next": "16.0.10",
+>>>>>>> 63534cf38486435cce3b57fb9fe8ff6e2520446a
     "next-themes": "^0.4.6",
     "ogl": "^1.0.11",
     "postprocessing": "^6.38.0",
