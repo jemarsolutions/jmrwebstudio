@@ -1,3 +1,5 @@
+// This is just a test commit
+
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import WhatWeDo from "@/components/WhatWeDo";
